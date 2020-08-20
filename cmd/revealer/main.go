@@ -64,7 +64,7 @@ func main() {
 		}
 		cleanedUpSettingsValue := base64.StdEncoding.EncodeToString([]byte(strings.TrimSpace(string(decodedSettingsValue))))
 		if settingsValue != cleanedUpSettingsValue {
-			fmt.Println("WARNING! Newlines are added in the supplied settingsValue:", settingsValue, "for settingsKey:", settingsKey, "Correct value should be:", cleanedUpSettingsValue)
+			fmt.Println("WARNING! Spaces and/or Newlines are added in the supplied settingsValue:", settingsValue, "for settingsKey:", settingsKey, "Correct value should be:", cleanedUpSettingsValue)
 			decodedSettingsValue, _ = base64.StdEncoding.DecodeString(cleanedUpSettingsValue)
 		}
 

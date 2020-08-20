@@ -22,8 +22,17 @@ Usage of ./revealer:
 
 ---
 ### Validate Infra Settings
+>  Infra-settings are expected to be under a YAML structrure like the one below:
+```yaml
+infraSettings:
+  KEY: VALUE
+  ...
+```
+
 ```
 $ ./revealer -f sample-infra-secrets.yaml
+WARNING! Newlines are added in the supplied settingsValue: bG9jYWxob3N0OjMzMDYK for settingsKey: DATABASE_HOST Correct value should be: bG9jYWxob3N0OjMzMDY=
+DATABASE_HOST: localhost:3306
 ```
 
 ---
