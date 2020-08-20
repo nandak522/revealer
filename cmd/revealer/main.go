@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sort"
 	"strings"
 
 	specs "github.com/none-da/revealer/pkg/specs"
@@ -48,13 +49,23 @@ func main() {
 	data, err := ioutil.ReadFile(secretsFile)
 	err = yaml.Unmarshal(data, &infraFileData)
 	// fmt.Println("infraFileData: ", infraFileData)
-	for settingsKey, settingsValue := range infraFileData.InfraSettings {
+	var settingsKeys []string
+	for suppliedSettingsKey := range infraFileData.InfraSettings {
+		settingsKeys = append(settingsKeys, suppliedSettingsKey)
+	}
+	sort.Strings(settingsKeys)
+
+	for _, settingsKey := range settingsKeys {
+		settingsValue := infraFileData.InfraSettings[settingsKey]
 		decodedSettingsValue, err := base64.StdEncoding.DecodeString(settingsValue)
 		if err != nil {
 			fmt.Println("Error! value:", settingsValue, "is not a base64 encoded value. Please verify")
 			os.Exit(1)
 		}
-		fmt.Println(settingsKey, "=>", string(decodedSettingsValue))
+		// fmt.Print(settingsKey, ": ", string(base64.StdEncoding.EncodeToString(decodedSettingsValue)))
+		// fmt.Print(settingsKey, ": ", string(decodedSettingsValue), " isNewlineEnding ? ", string(decodedSettingsValue[len(decodedSettingsValue)-1]) == "\n", " Given: ", settingsValue, " Expected: ", base64.StdEncoding.EncodeToString([]byte(strings.TrimSpace(string(decodedSettingsValue)))))
+		fmt.Print(settingsKey, ": ", base64.StdEncoding.EncodeToString([]byte(strings.TrimSpace(string(decodedSettingsValue)))))
+		fmt.Println()
 	}
 	panicOnError(err)
 }
