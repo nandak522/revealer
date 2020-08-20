@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Running tests before cutting the tag..."
-go test -v -cover
+# echo "Running tests before cutting the tag..."
+# go test -v -cover
 echo "Proceeding with tag creation..."
-VERSION=`grep -E "MAJOR|MINOR|PATCH" version.go | cut -d '"' -f 2 | xargs echo -n | tr -s " " "."`
+VERSION=`grep -E "MAJOR|MINOR|PATCH" cmd/revealer/version.go | cut -d '"' -f 2 | xargs echo -n | tr -s " " "."`
 tag_name='v'$VERSION
 
 git tag $tag_name
