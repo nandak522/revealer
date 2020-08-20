@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/none-da/revealer/pkg/revealer/spec"
+	spec "github.com/none-da/revealer/pkg/revealer/spec"
 	flag "github.com/spf13/pflag"
 	"gopkg.in/yaml.v3"
 )
