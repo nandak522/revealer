@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	specs "github.com/none-da/revealer/pkg/specs"
 	flag "github.com/spf13/pflag"
@@ -22,10 +23,16 @@ func main() {
 	flag.StringVarP(&secretsFile, "secrets-file", "f", "", "Secrets file to parse.")
 	var printHelp bool
 	flag.BoolVarP(&printHelp, "help", "h", false, "Prints this help content.")
+	var printVersion bool
+	flag.BoolVarP(&printVersion, "version", "v", false, "Prints the version of Revealer.")
 	flag.Parse()
 	if printHelp {
 		flag.Usage()
 		return
+	}
+	if printVersion {
+		fmt.Println("v" + strings.Join(VERSION[:], "."))
+		os.Exit(0)
 	}
 	if secretsFile == "" {
 		fmt.Println("Please supply secrets-file!!!")
