@@ -1,2 +1,7 @@
-# infra-secrets-reader
-infra-secrets-reader
+# revealer
+revealer reveals secrets
+
+# Build
+```sh
+go build -o revealer $PWD/cmd/revealer
+```
