@@ -59,12 +59,16 @@ func main() {
 		settingsValue := infraFileData.InfraSettings[settingsKey]
 		decodedSettingsValue, err := base64.StdEncoding.DecodeString(settingsValue)
 		if err != nil {
-			fmt.Println("Error! value:", settingsValue, "is not a base64 encoded value. Please verify")
+			fmt.Println("ERROR! value:", settingsValue, "is not a base64 encoded value. Please verify")
 			os.Exit(1)
 		}
-		// fmt.Print(settingsKey, ": ", string(base64.StdEncoding.EncodeToString(decodedSettingsValue)))
-		// fmt.Print(settingsKey, ": ", string(decodedSettingsValue), " isNewlineEnding ? ", string(decodedSettingsValue[len(decodedSettingsValue)-1]) == "\n", " Given: ", settingsValue, " Expected: ", base64.StdEncoding.EncodeToString([]byte(strings.TrimSpace(string(decodedSettingsValue)))))
-		fmt.Print(settingsKey, ": ", base64.StdEncoding.EncodeToString([]byte(strings.TrimSpace(string(decodedSettingsValue)))))
+		cleanedUpSettingsValue := base64.StdEncoding.EncodeToString([]byte(strings.TrimSpace(string(decodedSettingsValue))))
+		if settingsValue != cleanedUpSettingsValue {
+			fmt.Println("WARNING! Newlines are added in the supplied settingsValue:", settingsValue, "for settingsKey:", settingsKey, "Correct value should be:", cleanedUpSettingsValue)
+			decodedSettingsValue, _ = base64.StdEncoding.DecodeString(cleanedUpSettingsValue)
+		}
+
+		fmt.Print(settingsKey, ": ", string(decodedSettingsValue))
 		fmt.Println()
 	}
 	panicOnError(err)

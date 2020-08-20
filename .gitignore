@@ -16,3 +16,6 @@
 
 # Golang binary cruft
 /revealer
+
+# Mac cruft
+.DS_Store
