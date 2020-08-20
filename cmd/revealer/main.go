@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -26,16 +27,27 @@ func main() {
 		flag.Usage()
 		return
 	}
+	if secretsFile == "" {
+		fmt.Println("Please supply secrets-file!!!")
+		os.Exit(1)
+	}
 	_, err := os.Stat(secretsFile)
 	if (err != nil) && (os.IsNotExist(err)) {
-		fmt.Println("file: ", secretsFile, " Does Not Exist")
+		fmt.Println("file", secretsFile, "Does Not Exist")
 	}
 
 	var infraFileData specs.InfraFileSpec
 
 	data, err := ioutil.ReadFile(secretsFile)
-	fmt.Println("data: ", data)
-	err = yaml.UnMarshal(data, &infraFileData)
-	fmt.Println("infraFileData: ", infraFileData)
+	err = yaml.Unmarshal(data, &infraFileData)
+	// fmt.Println("infraFileData: ", infraFileData)
+	for settingsKey, settingsValue := range infraFileData.InfraSettings {
+		decodedSettingsValue, err := base64.StdEncoding.DecodeString(settingsValue)
+		if err != nil {
+			fmt.Println("Error! value:", settingsValue, "is not a base64 encoded value. Please verify")
+			os.Exit(1)
+		}
+		fmt.Println(settingsKey, "=>", string(decodedSettingsValue))
+	}
 	panicOnError(err)
 }
