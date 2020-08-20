@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	spec "github.com/none-da/revealer/pkg/revealer/spec"
+	specs "github.com/none-da/revealer/pkg/specs"
 	flag "github.com/spf13/pflag"
 	"gopkg.in/yaml.v3"
 )
@@ -31,7 +31,7 @@ func main() {
 		fmt.Println("file: ", secretsFile, " Does Not Exist")
 	}
 
-	var infraFileData spec.InfraFileSpec
+	var infraFileData specs.InfraFileSpec
 
 	data, err := ioutil.ReadFile(secretsFile)
 	fmt.Println("data: ", data)
