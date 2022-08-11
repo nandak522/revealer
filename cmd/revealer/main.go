@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"sort"
 	"strings"
@@ -46,7 +45,7 @@ func main() {
 
 	var infraFileData specs.InfraFileSpec
 
-	data, err := ioutil.ReadFile(secretsFile)
+	data, _ := os.ReadFile(secretsFile)
 	err = yaml.Unmarshal(data, &infraFileData)
 	// fmt.Println("infraFileData: ", infraFileData)
 	var settingsKeys []string
@@ -64,7 +63,7 @@ func main() {
 		}
 		cleanedUpSettingsValue := base64.StdEncoding.EncodeToString([]byte(strings.TrimSpace(string(decodedSettingsValue))))
 		if settingsValue != cleanedUpSettingsValue {
-			fmt.Println("WARNING! Spaces and/or Newlines are added in the supplied settingsValue:", settingsValue, "for settingsKey:", settingsKey, "Correct value should be:", cleanedUpSettingsValue)
+			fmt.Println("# WARNING! Spaces and/or Newlines are added in the supplied settingsValue", settingsValue, "for settingsKey ", settingsKey, "Correct value should be", cleanedUpSettingsValue)
 			decodedSettingsValue, _ = base64.StdEncoding.DecodeString(cleanedUpSettingsValue)
 		}
 
