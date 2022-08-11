@@ -15,7 +15,7 @@
 # vendor/
 
 # Golang binary cruft
-/revealer
+/revealer*
 
 # Mac cruft
 .DS_Store

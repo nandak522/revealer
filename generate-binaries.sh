@@ -5,7 +5,7 @@ set -e
 # go test -v -cover
 echo "Proceeding with generating the binaries..."
 
-platforms=("linux/amd64" "darwin/amd64")
+platforms=("linux/amd64" "darwin/amd64" "darwin/arm64")
 VERSION=`grep -E "MAJOR|MINOR|PATCH" cmd/revealer/version.go | cut -d '"' -f 2 | xargs echo -n | tr -s " " "."`
 
 for platform in "${platforms[@]}"
